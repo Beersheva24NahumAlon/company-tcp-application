@@ -23,7 +23,7 @@ public class CompanyTcpProxy implements Company {
 
     @Override
     public int getDepartmentBudget(String department) {
-        return Integer.valueOf(client.sendAndReceive("getDepartmentBudget", department));
+        return Integer.parseInt(client.sendAndReceive("getDepartmentBudget", department));
     }
 
     @Override
