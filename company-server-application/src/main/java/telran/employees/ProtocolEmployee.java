@@ -2,11 +2,13 @@ package telran.employees;
 
 import telran.io.*;
 import telran.net.*;
+import java.lang.reflect.Method;
 import java.util.*;
 import org.json.JSONArray;
 
 import static telran.employees.ServerConfigProperties.*;
 
+@SuppressWarnings("unused")
 public class ProtocolEmployee implements Protocol {
     Company company;
 
@@ -18,16 +20,15 @@ public class ProtocolEmployee implements Protocol {
     public Response getResponse(Request request) {
         String type = request.requestType();
         String data = request.requestData();
-        Response response = switch (type) {
-            case "addEmployee" -> addEmployee(data);
-            case "saveCompany" -> saveCompany();
-            case "removeEmployee" -> removeEmployee(data);
-            case "getManagersWithMostFactor" -> getManagersWithMostFactor();
-            case "getDepartments" -> getDepartments();
-            case "getEmployee" -> getEmployee(data);
-            case "getDepartmentBudget" -> getDepartmentBudget(data);
-            default -> new Response(ResponseCode.WRONG_TYPE, "Wrong type of command to server");
-        };
+        Response response = null;
+        try {
+            Method method = ProtocolEmployee.class.getDeclaredMethod(type, String.class);
+            method.setAccessible(true);
+            response = (Response) method.invoke(this, data);
+        } catch (NoSuchMethodException e) {
+            response = new Response(ResponseCode.WRONG_TYPE, "Wrong type of command to server");
+        } catch (Exception e) {
+        }
         return response;
     }
 
@@ -70,14 +71,14 @@ public class ProtocolEmployee implements Protocol {
         return res;
     }
 
-    private Response getManagersWithMostFactor() {
+    private Response getManagersWithMostFactor(String data) {
         Manager[] managers = company.getManagersWithMostFactor();
         String[] jsonStrings = Arrays.stream(managers).map(Manager::toString).toArray(String[]::new);
         JSONArray jsonArray = new JSONArray(jsonStrings);
         return new Response(ResponseCode.OK, jsonArray.toString());
     }
 
-    private Response getDepartments() {
+    private Response getDepartments(String data) {
         String[] departments = company.getDepartments();
         JSONArray departmentsJSON = new JSONArray(departments);
         return new Response(ResponseCode.OK, departmentsJSON.toString());
@@ -88,7 +89,7 @@ public class ProtocolEmployee implements Protocol {
         return new Response(ResponseCode.OK, buget + "");
     }
 
-    private Response saveCompany() {
+    private Response saveCompany(String data) {
         Response res = null;
         if (company instanceof Persistable persistable) {
             try {
