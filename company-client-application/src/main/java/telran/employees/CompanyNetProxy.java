@@ -2,12 +2,12 @@ package telran.employees;
 
 import java.util.*;
 import org.json.JSONArray;
-import telran.net.TcpClient;
+import telran.net.NetworkClient;
 
 public class CompanyNetProxy implements Company {
-    TcpClient client;
+    NetworkClient client;
 
-    public CompanyNetProxy(TcpClient client) {
+    public CompanyNetProxy(NetworkClient client) {
         this.client = client;
     }
 

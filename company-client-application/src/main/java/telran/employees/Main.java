@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         InputOutput io = new StandardInputOutput();
-        TcpClient client = new TcpClient(HOST, PORT);
+        NetworkClient client = new TcpClient(HOST, PORT);
         Company company = new CompanyNetProxy(client);
         Item[] items = CompanyItems.getItems(company);
         items = addExitItem(items, client);
@@ -22,11 +22,13 @@ public class Main {
         io.writeLine("Application is finished");
     }
 
-    private static Item[] addExitItem(Item[] items, TcpClient client) {
+    private static Item[] addExitItem(Item[] items, NetworkClient client) {
         Item[] res = Arrays.copyOf(items, items.length + 1);
         res[res.length - 1] = Item.of("Exit", io -> {
             try {
-                client.close();
+                if (client instanceof Closeable closeable) {
+                    closeable.close();
+                }
                 io.writeString("Session closed correcrly");
             } catch (IOException e) {
                 throw new RuntimeException(e);
