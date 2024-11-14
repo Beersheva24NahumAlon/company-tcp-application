@@ -25,7 +25,7 @@ public class CompanyItems {
 	}
 
 	static void saveCompany(InputOutput io) {
-		if (company instanceof CompanyTcpProxy companyTcpProxy) {
+		if (company instanceof CompanyNetProxy companyTcpProxy) {
 			companyTcpProxy.saveCompany();
 		}
 	}

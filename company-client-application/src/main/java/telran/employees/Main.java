@@ -7,13 +7,14 @@ import telran.net.*;
 
 public class Main {
 
+    //private static final String HOST = "192.168.3.78";
     private static final String HOST = "localhost";
     private static final int PORT = 4000;
 
     public static void main(String[] args) {
         InputOutput io = new StandardInputOutput();
         TcpClient client = new TcpClient(HOST, PORT);
-        Company company = new CompanyTcpProxy(client);
+        Company company = new CompanyNetProxy(client);
         Item[] items = CompanyItems.getItems(company);
         items = addExitItem(items, client);
         Menu menu = new Menu("Company network application", items);

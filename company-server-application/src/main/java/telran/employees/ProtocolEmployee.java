@@ -2,6 +2,9 @@ package telran.employees;
 
 import telran.io.*;
 import telran.net.*;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import org.json.JSONArray;
@@ -27,48 +30,35 @@ public class ProtocolEmployee implements Protocol {
             response = (Response) method.invoke(this, data);
         } catch (NoSuchMethodException e) {
             response = new Response(ResponseCode.WRONG_TYPE, "Wrong type of command to server");
+        } catch (InvocationTargetException e) {
+            Throwable causeExc = e.getCause();
+            String msg = causeExc == null ? e.getMessage() : causeExc.getMessage();
+            response = new Response(ResponseCode.WRONG_DATA, msg);
         } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return response;
     }
 
     private Response addEmployee(String data) {
-        Response res = null;
         Employee employee = Employee.getEmployeeFromJSON(data);
-        try {
-            company.addEmployee(employee);
-            res = new Response(ResponseCode.OK, "");
-        } catch (IllegalStateException e) {
-            res = new Response(ResponseCode.WRONG_DATA, 
-                    "Employee with this id already presents in the company");
-        }
-        return res;
+        company.addEmployee(employee);
+        return new Response(ResponseCode.OK, "");
     }
 
-    private Response removeEmployee(String data) {
-        Response res = null;
+    private Response removeEmployee(String data) throws NoSuchElementException {
         long id = Integer.valueOf(data);
-        try {
-            company.removeEmployee(id);
-            res = new Response(ResponseCode.OK, "");
-        } catch (NoSuchElementException e) {
-            res = new Response(ResponseCode.WRONG_DATA, 
-                    "Employee with this id is not found in the company");
-        }
-        return res;
+        company.removeEmployee(id);
+        return new Response(ResponseCode.OK, "");
     }
 
     private Response getEmployee(String data) {
-        Response res = null;
         long id = Long.valueOf(data);
         Employee employee = company.getEmployee(id);
-        if (employee != null) {
-            res = new Response(ResponseCode.OK, employee.toString());
-        } else {
-            res = new Response(ResponseCode.WRONG_DATA, 
-                    "Employee with this id is not found in the company");
+        if (employee == null) {
+            throw new NoSuchElementException("Employee with this id is not found in the company");
         }
-        return res;
+        return new Response(ResponseCode.OK, employee.toString());
     }
 
     private Response getManagersWithMostFactor(String data) {
@@ -89,16 +79,10 @@ public class ProtocolEmployee implements Protocol {
         return new Response(ResponseCode.OK, buget + "");
     }
 
-    private Response saveCompany(String data) {
-        Response res = null;
+    private Response saveCompany(String data) throws IOException {
         if (company instanceof Persistable persistable) {
-            try {
-                persistable.saveToFile(FILE_NAME);
-                res = new Response(ResponseCode.OK, "");
-            } catch (Exception e) {
-                res = new Response(ResponseCode.WRONG_DATA, e.getMessage());
-            }
+            persistable.saveToFile(FILE_NAME);
         }
-        return res;
+        return new Response(ResponseCode.OK, "");
     }
 }

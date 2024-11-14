@@ -4,10 +4,10 @@ import java.util.*;
 import org.json.JSONArray;
 import telran.net.TcpClient;
 
-public class CompanyTcpProxy implements Company {
+public class CompanyNetProxy implements Company {
     TcpClient client;
 
-    public CompanyTcpProxy(TcpClient client) {
+    public CompanyNetProxy(TcpClient client) {
         this.client = client;
     }
 
