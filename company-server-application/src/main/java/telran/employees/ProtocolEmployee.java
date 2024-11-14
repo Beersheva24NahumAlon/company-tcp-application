@@ -78,11 +78,4 @@ public class ProtocolEmployee implements Protocol {
         int buget = company.getDepartmentBudget(data);
         return new Response(ResponseCode.OK, buget + "");
     }
-
-    private Response saveCompany(String data) throws IOException {
-        if (company instanceof Persistable persistable) {
-            persistable.saveToFile(FILE_NAME);
-        }
-        return new Response(ResponseCode.OK, "");
-    }
 }

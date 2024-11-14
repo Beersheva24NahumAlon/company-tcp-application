@@ -19,15 +19,8 @@ public class CompanyItems {
 				Item.of("Display department budget", CompanyItems::getDepartmentBudget),
 				Item.of("Display departments", CompanyItems::getDepartments),
 				Item.of("Display managers with most factor", CompanyItems::getManagersWithMostFactor),
-				Item.of("Save company state", CompanyItems::saveCompany)
 		};
 		return items;
-	}
-
-	static void saveCompany(InputOutput io) {
-		if (company instanceof CompanyNetProxy companyTcpProxy) {
-			companyTcpProxy.saveCompany();
-		}
 	}
 
 	static void addEmployee(InputOutput io) {

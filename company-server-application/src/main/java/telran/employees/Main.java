@@ -12,9 +12,14 @@ public class Main {
         Company company = new CompanyImpl();
         Protocol protocol = new ProtocolEmployee(company);
         TcpServer server = new TcpServer(protocol, PORT);
+        CompanySaver companySaver = new CompanySaver(company);
         if (company instanceof Persistable persistable) {
             persistable.restoreFromFile(FILE_NAME);
+            System.out.printf("State of company restored from the file %s\n", FILE_NAME);
         }
-        server.run();
+        Thread treadTcpServer = new Thread(server);
+        Thread treadCompanySaver = new Thread(companySaver);
+        treadTcpServer.start();
+        treadCompanySaver.start();
     }
 }
