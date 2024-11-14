@@ -6,7 +6,6 @@ import telran.net.*;
 import static telran.employees.ServerConfigProperties.*;
 
 public class Main {
-    private static final int PORT = 4000;
 
     public static void main(String[] args) {
         Company company = new CompanyImpl();
