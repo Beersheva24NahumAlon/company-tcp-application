@@ -13,7 +13,7 @@ public class CompanySaver implements Runnable {
     @Override
     public void run() {
         while (true) {
-            if (company instanceof Persistable persistable) {
+            if (company instanceof Persistable persistable && company.checkChanges()) {
                 persistable.saveToFile(FILE_NAME);
                 System.out.printf("State of company saved in the file %s\n", FILE_NAME);
             }

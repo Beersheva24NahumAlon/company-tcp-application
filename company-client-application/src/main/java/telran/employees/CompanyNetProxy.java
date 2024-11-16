@@ -12,6 +12,11 @@ public class CompanyNetProxy implements Company {
     }
 
     @Override
+    public boolean checkChanges() {
+        return false;
+    }
+
+    @Override
     public Iterator<Employee> iterator() {
         return null;
     }
