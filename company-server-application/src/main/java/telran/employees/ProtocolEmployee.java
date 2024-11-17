@@ -46,10 +46,10 @@ public class ProtocolEmployee implements Protocol {
         return new Response(ResponseCode.OK, "");
     }
 
-    private Response removeEmployee(String data) throws NoSuchElementException {
-        long id = Integer.valueOf(data);
-        company.removeEmployee(id);
-        return new Response(ResponseCode.OK, "");
+    private Response removeEmployee(String data) {
+        long id = Long.valueOf(data);
+        Employee employee = company.removeEmployee(id);
+        return new Response(ResponseCode.OK, employee.toString());
     }
 
     private Response getEmployee(String data) {

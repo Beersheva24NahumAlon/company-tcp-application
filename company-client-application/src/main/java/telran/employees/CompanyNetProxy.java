@@ -12,11 +12,6 @@ public class CompanyNetProxy implements Company {
     }
 
     @Override
-    public boolean checkChanges() {
-        return false;
-    }
-
-    @Override
     public Iterator<Employee> iterator() {
         return null;
     }
@@ -58,9 +53,5 @@ public class CompanyNetProxy implements Company {
         String employeeJSON = client.sendAndReceive("removeEmployee", id + "");
         Employee employee = Employee.getEmployeeFromJSON(employeeJSON);
         return employee;
-    }
-
-    public void saveCompany() {
-        client.sendAndReceive("saveCompany", "");
     }
 }
