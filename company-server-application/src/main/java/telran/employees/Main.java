@@ -15,6 +15,7 @@ public class Main {
         if (company instanceof Persistable persistable) {
             persistable.restoreFromFile(FILE_NAME);
             System.out.printf("State of company restored from the file %s\n", FILE_NAME);
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> persistable.saveToFile(FILE_NAME)));
         }
         Thread treadTcpServer = new Thread(server);
         Thread treadCompanySaver = new Thread(companySaver);
