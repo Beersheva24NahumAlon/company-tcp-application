@@ -19,6 +19,7 @@ public class Main {
         Thread treadTcpServer = new Thread(server);
         Thread treadCompanySaver = new Thread(companySaver);
         treadTcpServer.start();
+        treadCompanySaver.setDaemon(true);
         treadCompanySaver.start();
     }
 }
