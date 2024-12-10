@@ -2,10 +2,8 @@ package telran.employees;
 
 import telran.io.*;
 import telran.net.*;
-
 import static telran.employees.ServerConfigProperties.*;
-
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
