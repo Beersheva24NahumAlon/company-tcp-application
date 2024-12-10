@@ -29,7 +29,7 @@ public class Main {
                 if (client instanceof Closeable closeable) {
                     closeable.close();
                 }
-                io.writeString("Session closed correcrly");
+                io.writeString("Session closed correctly");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
