@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         Company company = new CompanyImpl();
         Protocol protocol = new ProtocolEmployee(company);
-        TcpServer server = new TcpServer(protocol, PORT, BAD_RESPONSES, REQUEST_PER_SECOND, TOTAL_TIMEOUT);
+        TcpServer server = new TcpServer(protocol, PORT, BAD_RESPONSES, REQUEST_PER_SECOND, TOTAL_TIMEOUT, N_THREADS);
         CompanySaver companySaver = new CompanySaver(company);
         if (company instanceof Persistable persistable) {
             persistable.restoreFromFile(FILE_NAME);

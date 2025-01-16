@@ -7,8 +7,8 @@ import telran.net.*;
 
 public class Main {
 
-    //private static final String HOST = "192.168.3.78";
-    private static final String HOST = "localhost";
+    private static final String HOST = "54.147.210.32";
+    //private static final String HOST = "localhost";
     private static final int PORT = 4000;
 
     public static void main(String[] args) {

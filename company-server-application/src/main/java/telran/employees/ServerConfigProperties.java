@@ -7,4 +7,5 @@ public interface ServerConfigProperties {
     int BAD_RESPONSES = 20;
     int REQUEST_PER_SECOND = 100;
     int TOTAL_TIMEOUT = 50000;
+    int N_THREADS = 10;
 }
