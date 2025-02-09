@@ -7,13 +7,17 @@ import telran.net.*;
 
 public class Main {
 
-    private static final String HOST = "54.147.210.32";
-    //private static final String HOST = "localhost";
-    private static final int PORT = 4000;
+    //private static final String HOST = "54.147.210.32";
+    private static final String HOST = "localhost";
+    //private static final int PORT = 4000;
+    private static final int PORT = 3500;
+    private static final String PROTOCOL = "http";
+
 
     public static void main(String[] args) {
         InputOutput io = new StandardInputOutput();
-        NetworkClient client = new TcpClient(HOST, PORT);
+        //NetworkClient client = new TcpClient(HOST, PORT);
+        NetworkClient client = new HttpCustomClient(PROTOCOL, HOST, PORT);
         Company company = new CompanyNetProxy(client);
         Item[] items = CompanyItems.getItems(company);
         items = addExitItem(items, client);
